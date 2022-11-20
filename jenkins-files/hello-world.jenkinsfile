@@ -1,3 +1,5 @@
+@Library("pipeline-shared-lib@main") _
+
 pipeline {
   agent any
 
@@ -14,6 +16,15 @@ pipeline {
           final String longEpicName = 'Big ' + params.your_epic_name;
           echo("Hello Mister ${longEpicName}");
           echo("Yoy are ${params.age} years old");
+        }
+      }
+    }
+
+    stage("Show server time") {
+      steps {
+        script {
+          showServerTime();
+          showServerTime("Message from ${params.your_epic_name}");
         }
       }
     }
