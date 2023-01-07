@@ -1,0 +1,30 @@
+pipeline {
+  agent any
+
+  options {
+    timeout(activity: true, time: 5, unit: 'MINUTES');
+    skipDefaultCheckout(true);
+  }
+
+  stages {
+    stage("Init") {
+      options {
+        timeout(time: 5, unit: 'MINUTES');
+      }
+      steps {
+        script {
+          // Clean workspace
+          cleanWs();
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      script {
+        cleanWs();
+      }
+    }
+  }
+}
