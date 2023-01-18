@@ -21,6 +21,7 @@ pipeline {
 
           // Read pipeline configuration
           DeploymentConfigs.jobInstance = this;
+          DeploymentConfigs.loadGlobalConfigs();
         }
       }
     }
