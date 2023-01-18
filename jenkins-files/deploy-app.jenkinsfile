@@ -1,3 +1,6 @@
+@Library(value="pipeline-shared-lib", changelog=false) _
+import cicd.config.DeploymentConfigs;
+
 pipeline {
   agent any
 
@@ -15,6 +18,9 @@ pipeline {
         script {
           // Clean workspace
           cleanWs();
+
+          // Read pipeline configuration
+          DeploymentConfigs.jobInstance = this;
         }
       }
     }
