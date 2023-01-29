@@ -20,7 +20,6 @@ pipeline {
           echo("PARAM source_branch: '${params.source_branch}'");
 
           // Clean workspace
-          sleep(time: 20, unit: 'SECONDS');
           cleanWs();
 
           // Read pipeline configuration
@@ -42,9 +41,7 @@ pipeline {
           final String repositoryName = env.p_PROJECT_NAME;
           final String sourceBranch = params.source_branch;
 
-          sleep(time: 20, unit: 'SECONDS');
           cloneProjectRepository(repositoryName, sourceBranch);
-          sleep(time: 20, unit: 'SECONDS');
         }
       }
     }
