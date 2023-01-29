@@ -16,6 +16,9 @@ pipeline {
       }
       steps {
         script {
+          // Print parameters
+          echo("PARAM source_branch: '${params.source_branch}'");
+
           // Clean workspace
           cleanWs();
 
@@ -25,7 +28,20 @@ pipeline {
 
           // Set initial environment variables
           readPipelineName();
-          sh("env"); // TODO Remove it after debug
+        }
+      }
+    }
+
+    stage("Clone project repository") {
+      options {
+        timeout(time: 3, unit: 'MINUTES');
+      }
+      steps {
+        script {
+          final String repositoryName = env.p_PROJECT_NAME;
+          final String sourceBranch = params.source_branch;
+
+          cloneProjectRepository(repositoryName, sourceBranch);
         }
       }
     }
