@@ -59,6 +59,20 @@ pipeline {
         }
       }
     }
+
+    stage("Install dependencies") {
+      options {
+        timeout(time: 3, unit: 'MINUTES');
+      }
+      steps {
+        script {
+          sh("ls -la"); // TODO Remove after debug
+          installDependencies();
+          sh("ls -la"); // TODO Remove after debug
+          sh("ls -la node_modules"); // TODO Remove after debug
+        }
+      }
+    }
   }
 
   post {
