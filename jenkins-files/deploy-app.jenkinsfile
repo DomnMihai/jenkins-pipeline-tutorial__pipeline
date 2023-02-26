@@ -101,9 +101,6 @@ pipeline {
           dir(deploymentFolderPath) {
             echo("Deployment folder created at path '${pwd()}'");
           }
-
-          sh("ls -la"); // TODO Remove debug logs
-          sh("ls -la ${deploymentFolderPath}"); // TODO Remove debug logs
         }
       }
     }
