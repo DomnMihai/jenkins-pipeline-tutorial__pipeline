@@ -2,6 +2,11 @@
 import cicd.config.DeploymentConfigs;
 
 Map cicdProjectConfigMap = null;
+final Map deploymentConfigMap = [
+  jenkinsWorkspace: [
+    deploymentFolderPath: null
+  ]
+];
 
 pipeline {
   agent any
@@ -79,6 +84,26 @@ pipeline {
       steps {
         script {
           runUnitTests();
+        }
+      }
+    }
+
+    stage("Create deployment folder") {
+      options {
+        timeout(time: 5, unit: 'SECONDS');
+      }
+      steps {
+        script {
+          final String deploymentFolderPath = "__deployment_${env.BUILD_NUMBER}";
+          deploymentConfigMap["jenkinsWorkspace"]["deploymentFolderPath"] = deploymentFolderPath;
+
+          sh(script: "mkdir ${deploymentFolderPath}", label: "Create deployment folder");
+          dir(deploymentFolderPath) {
+            echo("Deployment folder created at path '${pwd()}'");
+          }
+
+          sh("ls -la"); // TODO Remove debug logs
+          sh("ls -la ${deploymentFolderPath}"); // TODO Remove debug logs
         }
       }
     }
