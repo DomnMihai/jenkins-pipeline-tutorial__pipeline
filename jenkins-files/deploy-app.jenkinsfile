@@ -117,9 +117,6 @@ pipeline {
           filesToCopyList.each({ String file ->
             sh(script: "cp --recursive ${file} ${deploymentFolderPath}", label: "Copy files for deployment");
           });
-
-          sh("ls -la ${deploymentFolderPath}"); // TODO Remove after debug
-          sh("ls -la ${deploymentFolderPath}/src"); // TODO Remove after debug
         }
       }
     }
