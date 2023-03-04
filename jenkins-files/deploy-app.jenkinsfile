@@ -104,6 +104,25 @@ pipeline {
         }
       }
     }
+
+    stage("Prepare files for deployment") {
+      options {
+        timeout(time: 60, unit: 'SECONDS');
+      }
+      steps {
+        script {
+          final String deploymentFolderPath = deploymentConfigMap["jenkinsWorkspace"]["deploymentFolderPath"];
+          final List<String> filesToCopyList = cicdProjectConfigMap["filesToDeploy"];
+
+          filesToCopyList.each({ String file ->
+            sh(script: "cp --recursive ${file} ${deploymentFolderPath}", label: "Copy files for deployment");
+          });
+
+          sh("ls -la ${deploymentFolderPath}"); // TODO Remove after debug
+          sh("ls -la ${deploymentFolderPath}/src"); // TODO Remove after debug
+        }
+      }
+    }
   }
 
   post {
