@@ -131,9 +131,6 @@ pipeline {
           dir(deploymentFolderPath) {
             installDependencies(true);
           }
-
-          sh("ls -la ${deploymentFolderPath}"); // TODO Remove it after debug
-          sh("ls -la ${deploymentFolderPath}/node_modules"); // TODO Remove it after debug
         }
       }
     }
