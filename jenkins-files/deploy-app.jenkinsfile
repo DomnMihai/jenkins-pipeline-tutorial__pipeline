@@ -143,9 +143,6 @@ pipeline {
         script {
           final String deploymentFolderPath = deploymentConfigMap["jenkinsWorkspace"]["deploymentFolderPath"];
           zip(dir: deploymentFolderPath, zipFile: "new-code-${env.BUILD_NUMBER}.zip", archive: true, defaultExcludes: false);
-
-          sh("ls -la"); // TODO Remove after debug
-          sh("ls -la ${deploymentFolderPath}"); // TODO Remove after debug
         }
       }
     }
