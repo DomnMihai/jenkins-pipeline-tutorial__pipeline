@@ -146,6 +146,18 @@ pipeline {
         }
       }
     }
+
+    stage("Stop nodejs-backend-app service") {
+      options {
+        timeout(time: 1, unit: 'MINUTES');
+      }
+      steps {
+        script {
+          final String systemdServiceName = cicdProjectConfigMap["systemdService"]["serviceName"];
+          callSystemdService(command: "stop", serviceName: systemdServiceName);
+        }
+      }
+    }
   }
 
   post {
