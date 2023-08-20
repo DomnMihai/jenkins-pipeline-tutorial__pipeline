@@ -175,6 +175,22 @@ pipeline {
         }
       }
     }
+
+    stage("Delete current version") {
+      options {
+        timeout(time: 5, unit: 'MINUTES');
+      }
+      steps {
+        script {
+          // Get configuration variables
+          final Map applicationConfigMap = cicdProjectConfigMap["application"];
+          final String applicationPath = applicationConfigMap["applicationPath"];
+
+          // Delete
+          sh(script: "sudo rm --force --recursive ${applicationPath}", label: "Delete running application");
+        }
+      }
+    }
   }
 
   post {
