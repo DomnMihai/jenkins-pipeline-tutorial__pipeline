@@ -205,14 +205,10 @@ pipeline {
           // Move application code
           sh(script: "sudo mv ${deploymentFolderPath} ${applicationPath}", label: "Deploy new application code");
 
-          sh("ls -la ${applicationPath}"); // TODO Remove after debug
-
           // Change application files owner
           final String osUserName = applicationConfigMap["osUserName"];
           final String osGroupName = applicationConfigMap["osGroupName"];
           sh(script: "sudo chown --recursive ${osUserName}:${osGroupName} ${applicationPath}", label: "Change application files owner");
-
-          sh("ls -la ${applicationPath}"); // TODO Remove after debug
         }
       }
     }
