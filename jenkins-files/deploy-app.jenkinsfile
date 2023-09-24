@@ -191,6 +191,31 @@ pipeline {
         }
       }
     }
+
+    stage("Deploy new code version") {
+      options {
+        timeout(time: 10, unit: 'MINUTES');
+      }
+      steps {
+        script {
+          final Map applicationConfigMap = cicdProjectConfigMap["application"];
+          final String applicationPath = applicationConfigMap["applicationPath"];
+          final String deploymentFolderPath = deploymentConfigMap["jenkinsWorkspace"]["deploymentFolderPath"];
+
+          // Move application code
+          sh(script: "sudo mv ${deploymentFolderPath} ${applicationPath}", label: "Deploy new application code");
+
+          sh("ls -la ${applicationPath}"); // TODO Remove after debug
+
+          // Change application files owner
+          final String osUserName = applicationConfigMap["osUserName"];
+          final String osGroupName = applicationConfigMap["osGroupName"];
+          sh(script: "sudo chown --recursive ${osUserName}:${osGroupName} ${applicationPath}", label: "Change application files owner");
+
+          sh("ls -la ${applicationPath}"); // TODO Remove after debug
+        }
+      }
+    }
   }
 
   post {
