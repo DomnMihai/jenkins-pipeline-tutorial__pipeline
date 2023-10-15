@@ -224,6 +224,23 @@ pipeline {
         }
       }
     }
+
+    stage("Check app health") {
+      options {
+        timeout(time: 3, unit: 'MINUTES');
+      }
+      steps {
+        script {
+          final Map healthCheckConfigMap = cicdProjectConfigMap["healthCheck"];
+          checkServerHealth(
+            url: healthCheckConfigMap["httpPath"],
+            expectedResponseCode: healthCheckConfigMap["responseCode"],
+            checksNumber: healthCheckConfigMap["checksNumber"],
+            checkDelay: healthCheckConfigMap["checkDelay"]
+          );
+        }
+      }
+    }
   }
 
   post {
